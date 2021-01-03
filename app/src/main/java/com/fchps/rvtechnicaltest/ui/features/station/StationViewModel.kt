@@ -25,7 +25,7 @@ class StationViewModel @ViewModelInject constructor(
             .map { result -> result.places }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { places -> stationLiveData.value = places },
+                { places -> _stationLiveData.value = places },
                 { error -> Log.e("ERROR", error.localizedMessage) }
             )
     }
