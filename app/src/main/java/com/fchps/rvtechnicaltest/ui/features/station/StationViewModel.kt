@@ -2,6 +2,7 @@ package com.fchps.rvtechnicaltest.ui.features.station
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fchps.rvtechnicaltest.data.entities.Place
@@ -14,7 +15,7 @@ class StationViewModel @ViewModelInject constructor(
     private val stationRepository: PlaceRepository
 ) : ViewModel() {
 
-    val stationLiveData: MutableLiveData<List<Place>> get() = _stationLiveData
+    val stationLiveData: LiveData<List<Place>> get() = _stationLiveData
 
     private val _stationLiveData = MutableLiveData<List<Place>>()
     private val disposable = CompositeDisposable()
