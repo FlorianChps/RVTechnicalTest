@@ -7,6 +7,6 @@ import retrofit2.http.Query
 
 interface NavitiaService {
 
-    @GET("coverage/fr-idf/places?key=b56ac04d-d6af-4777-95a2-0ce997442d4a")
+    @GET("coverage/fr-idf/places")
     fun getPlaces(@Query("q") searched: String) : Single<PlaceResult>
 }
