@@ -7,10 +7,14 @@ import com.fchps.rvtechnicaltest.R
 import com.fchps.rvtechnicaltest.data.entities.Place
 import com.fchps.rvtechnicaltest.utils.inflate
 
-class HomeStationAdapter : ListAdapter<Place, StationViewHolder>(StationDiffUtil()) {
+class HomeStationAdapter(
+    private val onStationClicked: (Place) -> Unit
+) : ListAdapter<Place, StationViewHolder>(StationDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        StationViewHolder(parent.inflate(R.layout.item_home_station))
+        StationViewHolder(parent.inflate(R.layout.item_home_station)) {
+            onStationClicked(getItem(it) as Place)
+        }
 
     override fun onBindViewHolder(holder: StationViewHolder, position: Int) {
         holder.bind(getItem(position))

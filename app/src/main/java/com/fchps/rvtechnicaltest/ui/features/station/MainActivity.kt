@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.fchps.rvtechnicaltest.R
+import com.fchps.rvtechnicaltest.data.entities.Place
 import com.fchps.rvtechnicaltest.databinding.ActivityMainBinding
+import com.fchps.rvtechnicaltest.ui.features.details.DetailsStopActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,23 +34,22 @@ class MainActivity : AppCompatActivity() {
         binding.homeSearchStation.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query.isNullOrEmpty()) {
-                    stationAdapter.submitList(null)
-                } else {
-                    viewModel.getPlaces(query)
-                }
-                return true
+                return handleSearchQuery(query)
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) {
-                    stationAdapter.submitList(null)
-                } else {
-                    viewModel.getPlaces(newText)
-                }
-                return true
+                return handleSearchQuery(newText)
             }
         })
+    }
+
+    private fun handleSearchQuery(query: String?): Boolean {
+        if (query.isNullOrEmpty()) {
+            stationAdapter.submitList(null)
+        } else {
+            viewModel.getPlaces(query)
+        }
+        return true
     }
 
     private fun observeStations() {
@@ -65,8 +66,12 @@ class MainActivity : AppCompatActivity() {
             ResourcesCompat.getDrawable(resources, R.drawable.divider, theme)
                 ?.let { dividerItemDecoration.setDrawable(it) }
             addItemDecoration(dividerItemDecoration)
-            stationAdapter = HomeStationAdapter()
+            stationAdapter = HomeStationAdapter(::onStationClicked)
             adapter = stationAdapter
         }
+    }
+
+    private fun onStationClicked(place: Place) {
+        startActivity(DetailsStopActivity.navigateTo(this, place))
     }
 }
