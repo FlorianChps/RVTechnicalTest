@@ -15,21 +15,24 @@ class StationViewModel @ViewModelInject constructor(
     private val stationRepository: PlaceRepository
 ) : ViewModel() {
 
-    val stationLiveData: LiveData<List<Place>> get() = _stationLiveData
+    val stationLiveData: LiveData<List<PlaceModel>> get() = _stationLiveData
 
-    private val _stationLiveData = MutableLiveData<List<Place>>()
+    private val _stationLiveData = MutableLiveData<List<PlaceModel>>()
     private val disposable = CompositeDisposable()
 
     fun getPlaces(text: String) {
-        stationRepository.getPlaces(text)
-            .subscribeOn(Schedulers.io())
-            .map { result -> result.places }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { places -> _stationLiveData.value = places },
-                { error -> Log.e("ERROR", error.localizedMessage) }
-            )
+        disposable.add(
+            stationRepository.getPlaces(text)
+                .subscribeOn(Schedulers.io())
+                .map { result -> result.places.map { mapPlaceToPlaceModel(it) } }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { places -> _stationLiveData.value = places },
+                    { error -> Log.e("ERROR", error.localizedMessage) }
+                ))
     }
+
+    private fun mapPlaceToPlaceModel(place: Place) = PlaceModel(place.id, place.name, false)
 
     override fun onCleared() {
         super.onCleared()

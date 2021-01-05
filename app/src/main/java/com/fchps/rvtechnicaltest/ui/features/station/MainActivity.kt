@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onStationClicked(place: Place) {
+    private fun onStationClicked(place: PlaceModel) {
         startActivity(DetailsStopActivity.navigateTo(this, place))
     }
 }

@@ -1,10 +1,10 @@
 package com.fchps.rvtechnicaltest.ui.features.station
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fchps.rvtechnicaltest.R
-import com.fchps.rvtechnicaltest.data.entities.Place
 import com.fchps.rvtechnicaltest.utils.doSafelyOnItemClicked
 
 class StationViewHolder(
@@ -17,8 +17,18 @@ class StationViewHolder(
     }
 
     private val title: TextView = itemView.findViewById(R.id.station_title)
+    private val isFavorite: ImageView = itemView.findViewById(R.id.station_favorite)
 
-    fun bind(place: Place) {
+    fun bind(place: PlaceModel) {
+        isFavorite.setOnClickListener {
+            if (place.isFavorite) {
+                isFavorite.setImageResource(R.drawable.ic_star_empty)
+                place.isFavorite = false
+            } else {
+                isFavorite.setImageResource(R.drawable.ic_star_fill)
+                place.isFavorite = true
+            }
+        }
         title.text = place.name
     }
 }
