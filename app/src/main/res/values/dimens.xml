@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_xx_large">24dp</dimen>
-    <dimen name="margin_large">12dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_x_small">6dp</dimen>
+    <dimen name="margin_xx_small">4dp</dimen>
+    <dimen name="margin_xxx_small">2dp</dimen>
 
+    <dimen name="text_small">14sp</dimen>
     <dimen name="text_normal">16sp</dimen>
+    <dimen name="text_big">18sp</dimen>
 </resources>

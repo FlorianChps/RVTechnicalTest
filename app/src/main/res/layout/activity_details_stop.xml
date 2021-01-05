@@ -1,40 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/teal_200">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/details_stop_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="@color/green_200"
-            app:navigationIcon="@drawable/ic_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back">
 
             <TextView
                 android:id="@+id/details_stop_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:includeFontPadding="false"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/teal_200" />
+                android:maxLines="2"
+                android:textColor="@color/teal_200"
+                android:textSize="@dimen/text_big"
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/id_station"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/details_stop_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_xx_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/details_stop_toolbar"
+            tools:listitem="@layout/item_details_stop" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

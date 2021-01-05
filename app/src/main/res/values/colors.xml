@@ -5,7 +5,7 @@
     <color name="green_700">#00673F</color>
     <color name="light_gray_divider">#D3EFE8</color>
     <color name="teal_200">#FAFBFC</color>
-    <color name="teal_700">#FAFBFC</color>
-    <color name="black">#FF000000</color>
+    <color name="teal_700">#838A98</color>
+    <color name="black">#1D1D24</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

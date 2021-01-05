@@ -2,7 +2,9 @@ package com.fchps.rvtechnicaltest.di
 
 import com.fchps.rvtechnicaltest.data.NavitiaService
 import com.fchps.rvtechnicaltest.data.remote.PlaceRemoteDataSource
+import com.fchps.rvtechnicaltest.data.remote.StopRemoteDataSource
 import com.fchps.rvtechnicaltest.data.repository.PlaceRepository
+import com.fchps.rvtechnicaltest.data.repository.StopRepository
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -54,5 +56,10 @@ object RVTechnicalModule {
 
     @Singleton
     @Provides
-    fun bindRepository(remoteDataSource: PlaceRemoteDataSource) = PlaceRepository(remoteDataSource)
+    fun providePlaceRepository(remoteDataSource: PlaceRemoteDataSource) =
+        PlaceRepository(remoteDataSource)
+
+    @Singleton
+    @Provides
+    fun provideStopRepository(stopDataSource: StopRemoteDataSource) = StopRepository(stopDataSource)
 }
