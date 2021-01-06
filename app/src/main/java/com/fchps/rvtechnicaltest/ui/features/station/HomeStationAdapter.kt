@@ -8,12 +8,15 @@ import com.fchps.rvtechnicaltest.utils.inflate
 
 class HomeStationAdapter(
     private val onStationClicked: (PlaceModel) -> Unit,
+    private val onFavoritedChecked: (PlaceModel) -> Unit
 ) : ListAdapter<PlaceModel, StationViewHolder>(StationDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        StationViewHolder(parent.inflate(R.layout.item_home_station)) { position ->
-            onStationClicked(getItem(position) as PlaceModel)
-        }
+        StationViewHolder(
+            parent.inflate(R.layout.item_home_station),
+            onStationClicked,
+            onFavoritedChecked
+        )
 
     override fun onBindViewHolder(holder: StationViewHolder, position: Int) {
         holder.bind(getItem(position))

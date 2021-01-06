@@ -5,11 +5,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.fchps.rvtechnicaltest.data.entities.Place
 import com.fchps.rvtechnicaltest.data.repository.PlaceRepository
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.fchps.rvtechnicaltest.utils.ioToMainThreadCompletableTransformer
+import com.fchps.rvtechnicaltest.utils.ioToMainThreadObservableTransformer
+import com.fchps.rvtechnicaltest.utils.store
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 class StationViewModel @ViewModelInject constructor(
     private val stationRepository: PlaceRepository
@@ -18,24 +18,47 @@ class StationViewModel @ViewModelInject constructor(
     val stationLiveData: LiveData<List<PlaceModel>> get() = _stationLiveData
 
     private val _stationLiveData = MutableLiveData<List<PlaceModel>>()
-    private val disposable = CompositeDisposable()
+    private val transformer = ioToMainThreadObservableTransformer<List<PlaceModel>>()
+    private val compositeDisposable = CompositeDisposable()
 
     fun getPlaces(text: String) {
-        disposable.add(
-            stationRepository.getPlaces(text)
-                .subscribeOn(Schedulers.io())
-                .map { result -> result.places.map { mapPlaceToPlaceModel(it) } }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { places -> _stationLiveData.value = places },
-                    { error -> Log.e("ERROR", error.localizedMessage) }
-                ))
+        stationRepository.getPlaces(text)
+            .compose(transformer)
+            .subscribe(
+                { places -> _stationLiveData.value = places },
+                { error -> Log.e("ERROR", error.localizedMessage) })
+            .store(compositeDisposable)
     }
 
-    private fun mapPlaceToPlaceModel(place: Place) = PlaceModel(place.id, place.name, false)
+    fun getLocalPlaces() {
+        stationRepository.getLocalPlaces()
+            .compose(transformer)
+            .subscribe(
+                { places -> _stationLiveData.value = places },
+                { error -> Log.e("ERROR", error.localizedMessage) })
+            .store(compositeDisposable)
+    }
+
+    fun savePlace(placeModel: PlaceModel) {
+        stationRepository.savePlace(placeModel)
+            .compose(ioToMainThreadCompletableTransformer())
+            .subscribe(
+                {},
+                { Log.i("StationViewModel", "SAVE ERROR") },
+            )
+            .store(compositeDisposable)
+    }
+
+    fun deletePlace(placeModel: PlaceModel) {
+        stationRepository.deletePlace(placeModel)
+            .compose(ioToMainThreadCompletableTransformer())
+            .subscribe({},
+                { Log.i("StationViewModel", "DELETE ERROR") })
+            .store(compositeDisposable)
+    }
 
     override fun onCleared() {
         super.onCleared()
-        disposable.clear()
+        compositeDisposable.clear()
     }
 }
