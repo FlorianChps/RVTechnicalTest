@@ -8,7 +8,7 @@
     <color name="teal_700">#838A98</color>
     <color name="black">#1D1D24</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="backgroundDefault">@color/teal_200</color>
-    <color name="defaultSecondColor">@color/white</color>
-    <color name="text_hour_color">@color/black</color>
+    <color name="backgroundDefault">@color/black</color>
+    <color name="defaultSecondColor">#000000</color>
+    <color name="text_hour_color">@color/white</color>
 </resources>
