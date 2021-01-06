@@ -1,6 +1,9 @@
 package com.fchps.rvtechnicaltest.ui.features.station
 
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSearchView() {
+        binding.homeSearchStation.findViewById<ImageView>(R.id.search_close_btn).isEnabled = false
         binding.homeSearchStation.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = handleSearchQuery(query)
@@ -49,9 +53,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeStations() {
-        viewModel.stationLiveData.observe(this, { list ->
-            stationAdapter.submitList(list)
+        viewModel.stationLiveData.observe(this, { state ->
+            when (state) {
+                is StationState.Success -> renderStations(state.stops)
+                is StationState.Loading -> handleLoading()
+                is StationState.Error -> displayError(state.error)
+            }
         })
+    }
+
+    private fun renderStations(stations: List<PlaceModel>) {
+        binding.loadingSearchStation.visibility = View.GONE
+        stationAdapter.submitList(stations)
+    }
+
+    private fun displayError(error: Throwable) {
+        binding.loadingSearchStation.visibility = View.GONE
+        Toast.makeText(this, getString(R.string.error_retrieve_data), Toast.LENGTH_LONG).show()
+    }
+
+    private fun handleLoading() {
+        binding.loadingSearchStation.visibility = View.VISIBLE
     }
 
     private fun initStationRecyclerView() {
@@ -77,10 +99,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             viewModel.deletePlace(placeModel)
         }
-        if (binding.homeSearchStation.query.isNullOrEmpty()) {
-            return
-        } else {
+        if (binding.homeSearchStation.query.isNullOrEmpty().not()) {
             viewModel.getPlaces(binding.homeSearchStation.query.toString())
+        } else {
+            viewModel.getLocalPlaces()
         }
     }
 }

@@ -56,5 +56,15 @@
             tools:itemCount="5"
             tools:listitem="@layout/item_home_station" />
 
+        <ProgressBar
+            android:id="@+id/loading_search_station"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/home_station_list"
+            app:layout_constraintTop_toBottomOf="@+id/home_station_list" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

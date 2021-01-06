@@ -1,6 +1,5 @@
 package com.fchps.rvtechnicaltest.ui.features.station
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,33 +8,35 @@ import com.fchps.rvtechnicaltest.data.repository.PlaceRepository
 import com.fchps.rvtechnicaltest.utils.ioToMainThreadCompletableTransformer
 import com.fchps.rvtechnicaltest.utils.ioToMainThreadObservableTransformer
 import com.fchps.rvtechnicaltest.utils.store
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.disposables.CompositeDisposable
 
 class StationViewModel @ViewModelInject constructor(
     private val stationRepository: PlaceRepository
 ) : ViewModel() {
 
-    val stationLiveData: LiveData<List<PlaceModel>> get() = _stationLiveData
+    val stationLiveData: LiveData<StationState> get() = _stationLiveData
 
-    private val _stationLiveData = MutableLiveData<List<PlaceModel>>()
-    private val transformer = ioToMainThreadObservableTransformer<List<PlaceModel>>()
+    private val _stationLiveData = MutableLiveData<StationState>()
+    private val transformer = ioToMainThreadObservableTransformer<StationState>()
     private val compositeDisposable = CompositeDisposable()
 
     fun getPlaces(text: String) {
         stationRepository.getPlaces(text)
+            .map<StationState> { list -> StationState.Success(list) }
+            .onErrorReturn { error -> StationState.Error(error) }
+            .startWith(StationState.Loading)
             .compose(transformer)
-            .subscribe(
-                { places -> _stationLiveData.value = places },
-                { error -> Log.e("ERROR", error.localizedMessage) })
+            .subscribe { state -> _stationLiveData.value = state }
             .store(compositeDisposable)
     }
 
     fun getLocalPlaces() {
         stationRepository.getLocalPlaces()
+            .map<StationState> { list -> StationState.Success(list) }
+            .onErrorReturn { error -> StationState.Error(error) }
+            .startWith(StationState.Loading)
             .compose(transformer)
-            .subscribe(
-                { places -> _stationLiveData.value = places },
-                { error -> Log.e("ERROR", error.localizedMessage) })
+            .subscribe { state -> _stationLiveData.value = state }
             .store(compositeDisposable)
     }
 
@@ -44,7 +45,10 @@ class StationViewModel @ViewModelInject constructor(
             .compose(ioToMainThreadCompletableTransformer())
             .subscribe(
                 {},
-                { Log.i("StationViewModel", "SAVE ERROR") },
+                {
+                    _stationLiveData.value =
+                        StationState.Error(Throwable("Error while saving Favorite from DB."))
+                },
             )
             .store(compositeDisposable)
     }
@@ -53,7 +57,10 @@ class StationViewModel @ViewModelInject constructor(
         stationRepository.deletePlace(placeModel)
             .compose(ioToMainThreadCompletableTransformer())
             .subscribe({},
-                { Log.i("StationViewModel", "DELETE ERROR") })
+                {
+                    _stationLiveData.value =
+                        StationState.Error(Throwable("Error while deleting Favorite from DB."))
+                })
             .store(compositeDisposable)
     }
 
