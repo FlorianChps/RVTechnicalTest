@@ -1,10 +1,6 @@
 package com.fchps.rvtechnicaltest.di
 
 import com.fchps.rvtechnicaltest.data.NavitiaService
-import com.fchps.rvtechnicaltest.data.remote.PlaceRemoteDataSource
-import com.fchps.rvtechnicaltest.data.remote.StopRemoteDataSource
-import com.fchps.rvtechnicaltest.data.repository.PlaceRepository
-import com.fchps.rvtechnicaltest.data.repository.StopRepository
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -19,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object RVTechnicalModule {
+object ApiModule {
 
     private const val BASE_URL = "https://api.navitia.io/v1/"
 
@@ -49,17 +45,4 @@ object RVTechnicalModule {
     @Provides
     fun provideMoshi(): Moshi = Moshi.Builder().build()
 
-    @Singleton
-    @Provides
-    fun providePlaceRemoteDataSource(navitiaService: NavitiaService): PlaceRemoteDataSource =
-        PlaceRemoteDataSource(navitiaService)
-
-    @Singleton
-    @Provides
-    fun providePlaceRepository(remoteDataSource: PlaceRemoteDataSource) =
-        PlaceRepository(remoteDataSource)
-
-    @Singleton
-    @Provides
-    fun provideStopRepository(stopDataSource: StopRemoteDataSource) = StopRepository(stopDataSource)
 }
