@@ -1,7 +1,6 @@
 package com.fchps.rvtechnicaltest.ui.features.station
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.fchps.RxImmediateSchedulerRule
 import com.fchps.rvtechnicaltest.data.repository.PlaceRepository
 import io.mockk.MockKAnnotations
