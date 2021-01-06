@@ -1,6 +1,5 @@
 package com.fchps.rvtechnicaltest.ui.features.details
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,24 +7,25 @@ import androidx.lifecycle.ViewModel
 import com.fchps.rvtechnicaltest.data.repository.StopRepository
 import com.fchps.rvtechnicaltest.utils.ioToMainThreadObservableTransformer
 import com.fchps.rvtechnicaltest.utils.store
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.disposables.CompositeDisposable
 
 class StopViewModel @ViewModelInject constructor(
     private val stopRepository: StopRepository
 ) : ViewModel() {
 
-    val stopLiveData: LiveData<List<StopDetailsModel>> get() = _stopLiveData
+    val stopLiveData: LiveData<StopState> get() = _stopLiveData
 
-    private val _stopLiveData = MutableLiveData<List<StopDetailsModel>>()
-    private val transformer = ioToMainThreadObservableTransformer<List<StopDetailsModel>>()
+    private val _stopLiveData = MutableLiveData<StopState>()
+    private val transformer = ioToMainThreadObservableTransformer<StopState>()
     private val compositeDisposable = CompositeDisposable()
 
     fun getDetails(stopId: String) {
         stopRepository.getStopDetails(stopId)
+            .map<StopState> { list -> StopState.Success(list) }
+            .onErrorReturn { error -> StopState.Error(error) }
+            .startWith(StopState.Loading)
             .compose(transformer)
-            .subscribe(
-                { list -> _stopLiveData.value = list },
-                { error -> Log.e("ERROR", error.localizedMessage) })
+            .subscribe { state -> _stopLiveData.value = state  }
             .store(compositeDisposable)
     }
 

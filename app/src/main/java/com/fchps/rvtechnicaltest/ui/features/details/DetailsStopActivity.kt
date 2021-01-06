@@ -3,12 +3,13 @@ package com.fchps.rvtechnicaltest.ui.features.details
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fchps.rvtechnicaltest.R
-import com.fchps.rvtechnicaltest.data.entities.Place
 import com.fchps.rvtechnicaltest.databinding.ActivityDetailsStopBinding
 import com.fchps.rvtechnicaltest.ui.LastItemSpaceDecorator
 import com.fchps.rvtechnicaltest.ui.features.station.PlaceModel
@@ -38,9 +39,27 @@ class DetailsStopActivity : AppCompatActivity() {
     }
 
     private fun observeStops() {
-        stopViewModel.stopLiveData.observe(this, { list ->
-            stopsAdapter.submitList(list)
+        stopViewModel.stopLiveData.observe(this, { state ->
+            when (state) {
+                is StopState.Success -> renderStops(state.stops)
+                is StopState.Loading -> handleLoading()
+                is StopState.Error -> displayError(state.error)
+            }
         })
+    }
+
+    private fun renderStops(stops: List<StopDetailsModel>) {
+        binding.progressBar.visibility = View.GONE
+        stopsAdapter.submitList(stops)
+    }
+
+    private fun displayError(error: Throwable) {
+        binding.progressBar.visibility = View.GONE
+        Toast.makeText(this, getString(R.string.error_retrieve_data), Toast.LENGTH_LONG).show()
+    }
+
+    private fun handleLoading() {
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun initStopDetailsRecyclerView() {
