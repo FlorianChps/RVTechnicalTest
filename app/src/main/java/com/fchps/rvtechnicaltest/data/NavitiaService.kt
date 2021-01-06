@@ -2,7 +2,7 @@ package com.fchps.rvtechnicaltest.data
 
 import com.fchps.rvtechnicaltest.data.entities.PlaceResult
 import com.fchps.rvtechnicaltest.data.entities.StopResult
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

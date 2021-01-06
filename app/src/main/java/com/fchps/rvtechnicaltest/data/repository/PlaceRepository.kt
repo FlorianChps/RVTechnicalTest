@@ -4,7 +4,7 @@ import com.fchps.rvtechnicaltest.data.entities.Place
 import com.fchps.rvtechnicaltest.data.local.PlaceLocalDataSource
 import com.fchps.rvtechnicaltest.data.remote.PlaceRemoteDataSource
 import com.fchps.rvtechnicaltest.ui.features.station.PlaceModel
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class PlaceRepository @Inject constructor(

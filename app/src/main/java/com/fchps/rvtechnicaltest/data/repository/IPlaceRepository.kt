@@ -1,8 +1,8 @@
 package com.fchps.rvtechnicaltest.data.repository
 
 import com.fchps.rvtechnicaltest.ui.features.station.PlaceModel
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Completable
+import io.reactivex.Observable
 
 interface IPlaceRepository {
 

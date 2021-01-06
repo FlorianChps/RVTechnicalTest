@@ -2,7 +2,7 @@ package com.fchps.rvtechnicaltest.data.local
 
 import com.fchps.rvtechnicaltest.data.db.PlaceDataBaseDao
 import com.fchps.rvtechnicaltest.ui.features.station.PlaceModel
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class PlaceLocalDataSource @Inject constructor(

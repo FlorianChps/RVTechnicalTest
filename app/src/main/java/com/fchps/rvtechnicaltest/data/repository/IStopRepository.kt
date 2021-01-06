@@ -1,7 +1,7 @@
 package com.fchps.rvtechnicaltest.data.repository
 
 import com.fchps.rvtechnicaltest.ui.features.details.StopDetailsModel
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 
 interface IStopRepository {
 

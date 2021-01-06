@@ -4,7 +4,7 @@ import com.fchps.rvtechnicaltest.data.entities.Departure
 import com.fchps.rvtechnicaltest.data.remote.StopRemoteDataSource
 import com.fchps.rvtechnicaltest.ui.features.details.StopDetailsModel
 import com.fchps.rvtechnicaltest.ui.features.details.TransportType
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
