@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/defaultSecondColor">
 
         <ImageView
             android:id="@+id/details_stop_image_commercial_mode"
@@ -21,17 +21,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintEnd_toStartOf="@id/details_stop_number_commercial_mode"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/details_stop_number_commercial_mode"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_small"
             android:background="@drawable/bg_commercial_mode"
+            android:ellipsize="middle"
             android:gravity="center"
             android:includeFontPadding="false"
+            android:maxHeight="@dimen/margin_xx_large"
             android:paddingStart="@dimen/margin_small"
             android:paddingTop="@dimen/margin_xxx_small"
             android:paddingEnd="@dimen/margin_small"
@@ -51,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_small"
             android:includeFontPadding="false"
-            android:textColor="@color/black"
+            android:textColor="@color/text_hour_color"
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/details_stop_number_commercial_mode"
@@ -65,6 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xx_small"
+            android:layout_marginBottom="@dimen/margin_xx_small"
             android:textAlignment="textStart"
             android:textColor="@color/teal_700"
             android:textSize="@dimen/text_small"
@@ -79,9 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.24" />
+            app:layout_constraintGuide_percent="0.20" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>
