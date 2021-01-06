@@ -1,7 +1,8 @@
 # RVTechnicalTest
 
 # Introduction
-Ce test technique a été réalisé avec les librairies suivantes :
+Ce test technique a pour but de montrer mes compétences sur Android. Cette application a été réalisé en MVVM avec les Architectures Components.
+Details des librairies
 
 # Librairies
 - Retrofit + Room + RXJava2 + RXAndroid + Hilt + Architecture Components (LiveData / ViewModel)
