@@ -5,7 +5,7 @@ import com.fchps.rvtechnicaltest.ui.features.station.PlaceModel
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class PlaceLocalDataSource @Inject constructor(
+open class PlaceLocalDataSource @Inject constructor(
     private val placeDataBaseDao: PlaceDataBaseDao
 ) {
 
